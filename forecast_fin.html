@@ -1,0 +1,2125 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forecast Comercial · Enero–Diciembre</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* === Brand tokens === */
+      :root {
+        --azul-grandeza: #0a0e12;
+        --gunmetal: #1a2433;
+        --arena: #f5f2eb;
+        --azul-neg: #314566;
+        --blanco: #ffffff;
+        --gold: #e5c78a;
+        --gold-soft: #faf4e8;
+        --verde: #31a770;
+        --gris-100: #ede9df;
+        --gris-200: #d6dae0;
+        --gris-300: #9aa3b0;
+        --gris-400: #5b6675;
+        --shadow-sm:
+          0 1px 2px rgba(10, 14, 18, 0.04), 0 1px 3px rgba(10, 14, 18, 0.06);
+        --shadow-md:
+          0 4px 8px rgba(10, 14, 18, 0.05), 0 8px 24px rgba(10, 14, 18, 0.08);
+        --shadow-lg:
+          0 12px 24px rgba(10, 14, 18, 0.08), 0 24px 48px rgba(10, 14, 18, 0.1);
+        --radius: 14px;
+        --radius-sm: 10px;
+        --grad-brand: linear-gradient(
+          90deg,
+          var(--azul-grandeza) 40%,
+          var(--gunmetal) 100%
+        );
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 78px;
+      }
+      html,
+      body {
+        font-family: "Poppins", sans-serif;
+        color: var(--azul-grandeza);
+        background: var(--arena);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.4;
+      }
+      body {
+        min-height: 100vh;
+      }
+
+      /* === Header === */
+      header.top {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+      }
+      header.top h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--azul-grandeza);
+      }
+      header.top .subtitle {
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--gris-400);
+        margin-top: 6px;
+      }
+      .periodo-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--grad-brand);
+        color: var(--blanco);
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        box-shadow: var(--shadow-sm);
+      }
+      .periodo-chip::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold);
+      }
+
+      /* === KPIs === */
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 32px;
+      }
+      .kpi {
+        background: var(--blanco);
+        border-radius: var(--radius);
+        padding: 22px 22px 20px;
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+        cursor: default;
+        border: 1px solid transparent;
+      }
+      .kpi:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--gris-100);
+      }
+      .kpi::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--gunmetal);
+        transition: width 0.25s ease;
+      }
+      .kpi:hover::after {
+        width: 6px;
+      }
+      .kpi.kpi-budget::after {
+        background: var(--azul-grandeza);
+      }
+      .kpi.kpi-current::after {
+        background: #c46b5c;
+      }
+      .kpi.kpi-ceiling::after {
+        background: var(--verde);
+      }
+      .kpi.kpi-actions::after {
+        background: var(--gold);
+      }
+      .kpi-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--gris-400);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+      }
+      .kpi-value {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .kpi-value .unit {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--gris-400);
+        margin-left: 4px;
+      }
+      .kpi-delta {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 10px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: var(--gris-100);
+        color: var(--gris-400);
+      }
+      .kpi-delta.neg {
+        background: #fbeae6;
+        color: #9b3b2a;
+      }
+      .kpi-delta.pos {
+        background: #e4f4ec;
+        color: #1d7a4d;
+      }
+      .kpi-delta.warm {
+        background: #fbf1dc;
+        color: #8b6418;
+      }
+      .kpi-foot {
+        font-size: 11px;
+        color: var(--gris-300);
+        margin-top: 8px;
+      }
+
+      /* === Section grid === */
+      .grid-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+        gap: 22px;
+      }
+
+      .panel {
+        background: var(--blanco);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        padding: 24px 26px;
+        border: 1px solid var(--gris-100);
+      }
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 18px;
+        gap: 16px;
+      }
+      .panel-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--azul-grandeza);
+        letter-spacing: -0.01em;
+      }
+      .panel-sub {
+        font-size: 12px;
+        color: var(--gris-400);
+        margin-top: 3px;
+        font-weight: 400;
+      }
+
+      /* Legend */
+      .legend {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        font-size: 11px;
+        color: var(--gris-400);
+        font-weight: 500;
+      }
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .legend span::before {
+        content: "";
+        width: 11px;
+        height: 11px;
+        border-radius: 3px;
+        background: var(--gris-200);
+      }
+      .legend.legend-below {
+        margin: -6px 0 16px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--gris-100);
+      }
+      .legend .lg-real::before {
+        background: var(--azul-neg);
+      }
+      .legend .lg-est::before {
+        background: var(--gold);
+      }
+      .legend .lg-opt::before {
+        background: repeating-linear-gradient(
+          45deg,
+          var(--gris-300) 0,
+          var(--gris-300) 1.5px,
+          transparent 1.5px,
+          transparent 4px
+        );
+      }
+
+      /* === Forecast items === */
+      .items {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .item {
+        padding: 14px 14px 12px;
+        border-radius: var(--radius-sm);
+        transition: background 0.2s ease;
+        cursor: pointer;
+        position: relative;
+      }
+      .item:hover {
+        background: var(--gold-soft);
+      }
+      .item.active {
+        background: var(--gold-soft);
+      }
+      .item-head {
+        display: grid;
+        grid-template-columns: 28px 1fr auto auto;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .item-num {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--azul-grandeza);
+        color: var(--blanco);
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .item-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--azul-grandeza);
+        letter-spacing: -0.005em;
+      }
+      .item-name small {
+        font-weight: 400;
+        color: var(--gris-400);
+        font-size: 11px;
+        margin-left: 6px;
+      }
+      .factor-chip {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--verde);
+        background: #e4f4ec;
+        padding: 3px 9px;
+        border-radius: 999px;
+        font-variant-numeric: tabular-nums;
+      }
+      .factor-chip.f-zero {
+        color: var(--gris-400);
+        background: var(--gris-100);
+      }
+      .item-total {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--azul-grandeza);
+        font-variant-numeric: tabular-nums;
+        min-width: 86px;
+        text-align: right;
+      }
+      .item-total .unit-sm {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--gris-400);
+      }
+
+      /* Bar — el track completo = escenario optimista de la línea (límite, 100%).
+         Relleno = Avance + estimado; la zona rayada = merma por factor. */
+      .bar-wrap {
+        position: relative;
+        height: 14px;
+        margin-left: 42px;
+        margin-right: 0;
+      }
+      .bar-track {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 4px;
+        height: 6px;
+        background: var(--gris-100);
+        border-radius: 999px;
+        box-shadow: inset 0 0 0 1px var(--gris-200);
+      }
+      .bar-real {
+        position: absolute;
+        left: 0;
+        top: 4px;
+        height: 6px;
+        background: var(--azul-neg);
+        border-radius: 999px 0 0 999px;
+        transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .bar-est {
+        position: absolute;
+        top: 4px;
+        height: 6px;
+        background: var(--gold);
+        transition:
+          width 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+          left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .bar-merma {
+        position: absolute;
+        top: 4px;
+        height: 6px;
+        border-radius: 0 999px 999px 0;
+        background: repeating-linear-gradient(
+          45deg,
+          var(--gris-300) 0,
+          var(--gris-300) 1.5px,
+          transparent 1.5px,
+          transparent 5px
+        );
+        opacity: 0.6;
+        transition:
+          width 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+          left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .bar-real.solo {
+        border-radius: 999px;
+      }
+      .bar-est.first {
+        border-radius: 999px 0 0 999px;
+      }
+      .bar-est.last {
+        border-radius: 0 999px 999px 0;
+      }
+      .bar-est.solo {
+        border-radius: 999px;
+      }
+      /* marca del límite optimista al final del track */
+      .bar-limit {
+        position: absolute;
+        right: 0;
+        top: 1px;
+        width: 2px;
+        height: 12px;
+        background: var(--azul-grandeza);
+        border-radius: 2px;
+        opacity: 0.55;
+      }
+
+      /* Indicadores numéricos siempre visibles bajo la barra */
+      .bar-meta {
+        margin-left: 42px;
+        margin-top: 9px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 10.5px;
+        color: var(--gris-400);
+        font-variant-numeric: tabular-nums;
+      }
+      .bar-meta .mk {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .bar-meta .mk::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        background: var(--gris-200);
+        flex: none;
+      }
+      .bar-meta .m-real::before {
+        background: var(--azul-neg);
+      }
+      .bar-meta .m-est::before {
+        background: var(--gold);
+      }
+      .bar-meta .m-techo::before {
+        background: repeating-linear-gradient(
+          45deg,
+          var(--gris-300) 0,
+          var(--gris-300) 1.5px,
+          transparent 1.5px,
+          transparent 4px
+        );
+      }
+      .bar-meta b {
+        color: var(--azul-grandeza);
+        font-weight: 600;
+      }
+      .bar-meta small {
+        color: var(--gris-300);
+        font-weight: 500;
+        font-size: 9.5px;
+      }
+      .bar-meta .merma {
+        color: #9b3b2a;
+        font-weight: 600;
+        background: #fbeae6;
+        padding: 1px 9px;
+        border-radius: 999px;
+      }
+      .bar-meta .merma.none {
+        color: var(--verde);
+        background: #e4f4ec;
+      }
+
+      .item-detail {
+        margin-left: 42px;
+        margin-top: 10px;
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.35s ease,
+          margin-top 0.25s ease;
+        font-size: 12px;
+        color: var(--gris-400);
+        line-height: 1.55;
+      }
+      .item.active .item-detail {
+        max-height: 320px;
+        margin-top: 12px;
+      }
+      .item-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--gris-100);
+      }
+      .item-detail-grid.two {
+        grid-template-columns: 1.4fr 1fr;
+      }
+      .det-block {
+        font-size: 11px;
+      }
+      .det-block .lbl {
+        color: var(--gris-300);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 10px;
+        display: block;
+        margin-bottom: 3px;
+      }
+      .det-block .val {
+        color: var(--azul-grandeza);
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      /* === Actions panel === */
+      .actions-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .action {
+        display: grid;
+        grid-template-columns: 36px 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding: 14px 16px;
+        border-radius: var(--radius-sm);
+        background: var(--gris-100);
+        transition: all 0.25s ease;
+        cursor: default;
+        border: 1px solid transparent;
+      }
+      .action:hover {
+        background: var(--blanco);
+        border-color: var(--gold);
+        transform: translateX(4px);
+        box-shadow: var(--shadow-sm);
+      }
+      .action-badge {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: var(--gunmetal);
+        color: var(--blanco);
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        letter-spacing: 0.02em;
+      }
+      .action.pending .action-badge {
+        background: var(--gris-300);
+      }
+      .action-body .action-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--azul-grandeza);
+        margin-bottom: 2px;
+      }
+      .action-body .action-target {
+        font-size: 11px;
+        color: var(--gris-400);
+      }
+      .action-body .action-calc {
+        font-size: 11px;
+        color: var(--gris-300);
+        margin-top: 3px;
+        font-style: italic;
+        display: none;
+      }
+      .action:hover .action-calc {
+        display: block;
+      }
+      .action-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--verde);
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+        min-width: 64px;
+      }
+      .action-value small {
+        display: block;
+        font-size: 9px;
+        font-weight: 500;
+        color: var(--gris-400);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-top: 1px;
+      }
+      .action.pending .action-value {
+        color: var(--gris-300);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      /* === Gap visual === */
+      .gap-summary {
+        margin-top: 18px;
+        padding: 14px 16px;
+        background: linear-gradient(
+          90deg,
+          var(--azul-grandeza) 40%,
+          var(--gunmetal) 100%
+        );
+        border-radius: var(--radius-sm);
+        color: var(--blanco);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+      .gap-summary .lbl {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.65);
+        font-weight: 500;
+        margin-bottom: 3px;
+      }
+      .gap-summary .val {
+        font-size: 20px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      .gap-summary .val.gold {
+        color: var(--gold);
+      }
+      .gap-divider {
+        width: 1px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      /* === Tooltip === */
+      .tooltip {
+        position: fixed;
+        pointer-events: none;
+        background: var(--azul-grandeza);
+        color: var(--blanco);
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 11px;
+        line-height: 1.5;
+        box-shadow: var(--shadow-lg);
+        max-width: 260px;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        z-index: 50;
+        font-weight: 400;
+      }
+      .tooltip.show {
+        opacity: 1;
+      }
+      .tooltip strong {
+        color: var(--gold);
+        font-weight: 600;
+        display: block;
+        margin-bottom: 3px;
+        font-size: 12px;
+      }
+
+      /* === Horquilla bar === */
+      .horquilla {
+        margin-top: 16px;
+        background: var(--blanco);
+        border: 1px solid var(--gris-100);
+        border-radius: var(--radius);
+        padding: 18px 22px;
+      }
+      .hq-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--azul-grandeza);
+        margin-bottom: 6px;
+      }
+      .hq-sub {
+        font-size: 11px;
+        color: var(--gris-400);
+        margin-bottom: 14px;
+      }
+      .hq-bar {
+        position: relative;
+        height: 64px;
+        margin-top: 22px;
+      }
+      .hq-track {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 14px;
+        height: 4px;
+        background: var(--gris-100);
+        border-radius: 999px;
+      }
+      .hq-range {
+        position: absolute;
+        top: 14px;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          #c46b5c 0%,
+          var(--gold) 50%,
+          var(--verde) 100%
+        );
+        border-radius: 999px;
+        transition: width 1s ease;
+      }
+      .hq-mark {
+        position: absolute;
+        top: 0;
+        width: 2px;
+        height: 32px;
+        background: var(--azul-grandeza);
+        border-radius: 2px;
+      }
+      .hq-mark .tag {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -18px;
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--azul-grandeza);
+        white-space: nowrap;
+        background: var(--blanco);
+        padding: 1px 4px;
+        border-radius: 3px;
+      }
+      .hq-dot {
+        position: absolute;
+        top: 11px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid var(--blanco);
+        box-shadow: 0 0 0 1px var(--gris-200);
+      }
+      .hq-dot.actual {
+        background: #c46b5c;
+      }
+      .hq-dot.budget {
+        background: var(--azul-grandeza);
+      }
+      .hq-dot.ceiling {
+        background: var(--verde);
+      }
+      .hq-dot .cap {
+        position: absolute;
+        top: 14px;
+        white-space: nowrap;
+        font-size: 9.5px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+      .hq-dot .cap small {
+        display: block;
+        font-weight: 500;
+        color: var(--gris-400);
+        font-size: 9px;
+      }
+      .hq-dot .cap .diff {
+        display: block;
+        font-weight: 700;
+        font-size: 9.5px;
+        margin-top: 1px;
+      }
+      .hq-dot.actual .cap {
+        left: 0;
+        color: #9b3b2a;
+      }
+      .hq-dot.actual .cap .diff {
+        color: #9b3b2a;
+      }
+      .hq-dot.ceiling .cap {
+        right: 0;
+        text-align: right;
+        color: #1d7a4d;
+      }
+      .hq-dot.ceiling .cap .diff {
+        color: #1d7a4d;
+      }
+      .hq-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: var(--gris-300);
+        margin-top: 2px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* === Desglose en viñetas === */
+      .desglose-list {
+        margin: 5px 0 0;
+        padding: 0 0 0 14px;
+        list-style: none;
+      }
+      .desglose-list li {
+        position: relative;
+        margin-bottom: 4px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: var(--azul-grandeza);
+        font-weight: 500;
+      }
+      .desglose-list li::before {
+        content: "";
+        position: absolute;
+        left: -14px;
+        top: 6px;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--gold);
+      }
+
+      /* Botón para abrir el cuadro de prima (Banca Privada) */
+      .ver-cuadro-btn {
+        margin-top: 12px;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--blanco);
+        background: var(--grad-brand);
+        border: none;
+        padding: 8px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        box-shadow: var(--shadow-sm);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .ver-cuadro-btn::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background: var(--gold);
+      }
+      .ver-cuadro-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+
+      /* === Modal === */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 18, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+        z-index: 100;
+        animation: fadeIn 0.2s ease;
+      }
+      .modal-overlay[hidden] {
+        display: none;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .modal {
+        background: var(--blanco);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        padding: 24px 26px;
+        max-width: 1000px;
+        width: 100%;
+        max-height: 90vh;
+        overflow: auto;
+        animation: popIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      @keyframes popIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.99);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+      .modal-head-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .modal-close {
+        font-family: inherit;
+        font-size: 22px;
+        line-height: 1;
+        color: var(--gris-400);
+        background: var(--gris-100);
+        border: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+      .modal-close:hover {
+        background: var(--azul-grandeza);
+        color: var(--blanco);
+      }
+
+      /* === Prima promedio por producto === */
+      .prima-toggle {
+        display: inline-flex;
+        background: var(--gris-100);
+        border-radius: 999px;
+        padding: 3px;
+        gap: 2px;
+      }
+      .prima-toggle button {
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gris-400);
+        background: transparent;
+        border: none;
+        padding: 6px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+      .prima-toggle button:hover {
+        color: var(--azul-grandeza);
+      }
+      .prima-toggle button.active {
+        background: var(--blanco);
+        color: var(--azul-grandeza);
+        box-shadow: var(--shadow-sm);
+      }
+      .prima-table-wrap {
+        overflow-x: auto;
+      }
+      .prima-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+      }
+      .prima-table th,
+      .prima-table td {
+        padding: 9px 10px;
+        text-align: right;
+        white-space: nowrap;
+      }
+      .prima-table thead th {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--gris-400);
+        border-bottom: 2px solid var(--gris-100);
+      }
+      .prima-table th.ramo,
+      .prima-table td.ramo {
+        text-align: left;
+        font-weight: 600;
+        color: var(--azul-grandeza);
+        position: sticky;
+        left: 0;
+        background: var(--blanco);
+      }
+      .prima-table td.prima-prom {
+        text-align: left;
+        color: var(--gris-400);
+        font-weight: 500;
+      }
+      .prima-table tbody tr {
+        transition: background 0.15s ease;
+      }
+      .prima-table tbody tr:hover {
+        background: var(--gold-soft);
+      }
+      .prima-table tbody tr:hover td.ramo {
+        background: var(--gold-soft);
+      }
+      .prima-table td.cell {
+        color: var(--azul-grandeza);
+        border-radius: 4px;
+      }
+      .prima-table td.total-col {
+        font-weight: 700;
+        color: var(--azul-grandeza);
+        border-left: 2px solid var(--gris-100);
+      }
+      .prima-table tr.totales td {
+        border-top: 2px solid var(--gris-200);
+        font-weight: 700;
+        color: var(--azul-grandeza);
+        padding-top: 11px;
+      }
+      .prima-table tr.totales td.ramo {
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+      }
+
+      /* === Header fijo + índice de navegación === */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 12px 32px;
+        background: rgba(245, 242, 235, 0.88);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--gris-100);
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        padding: 0;
+        flex: none;
+      }
+      .brand-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 3px;
+        background: var(--grad-brand);
+      }
+      .brand-name {
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--azul-grandeza);
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+      .topnav {
+        display: flex;
+        gap: 4px;
+        flex: 1;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .topnav::-webkit-scrollbar {
+        display: none;
+      }
+      .navbtn {
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--gris-400);
+        background: transparent;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        white-space: nowrap;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+      .navbtn:hover {
+        color: var(--azul-grandeza);
+        background: var(--gris-100);
+      }
+      .navbtn.active {
+        color: var(--blanco);
+        background: var(--grad-brand);
+      }
+      .navnum {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        font-size: 10px;
+        font-weight: 700;
+        background: var(--gris-200);
+        color: var(--azul-grandeza);
+      }
+      .navbtn.active .navnum {
+        background: rgba(255, 255, 255, 0.25);
+        color: var(--blanco);
+      }
+
+      /* === Stage y vistas === */
+      .stage {
+        padding: 32px 40px 64px;
+      }
+      .view {
+        scroll-margin-top: 78px; /* compensa el header fijo al saltar por ancla */
+      }
+      .view:not(.view-cover) {
+        margin-top: 56px;
+        padding-top: 28px;
+        border-top: 1px solid var(--gris-100);
+      }
+      .view[hidden] {
+        display: none;
+      }
+      .view-head {
+        margin-bottom: 22px;
+      }
+      .view-title {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--azul-grandeza);
+      }
+      .view-sub {
+        font-size: 13px;
+        color: var(--gris-400);
+        margin-top: 4px;
+      }
+
+      /* === Carátula === */
+      .view-cover {
+        display: flex;
+        flex-direction: column;
+        gap: 38px;
+        padding-top: 28px;
+      }
+      .cover-eyebrow {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gris-400);
+        letter-spacing: 0.03em;
+        background: var(--blanco);
+        border: 1px solid var(--gris-100);
+        padding: 6px 14px;
+        border-radius: 999px;
+        margin-bottom: 18px;
+      }
+      .cover-title {
+        font-size: 48px;
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        color: var(--azul-grandeza);
+      }
+      .cover-desc {
+        font-size: 15px;
+        color: var(--gris-400);
+        margin-top: 14px;
+      }
+      .cover-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+      .cover-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 11px;
+        text-align: left;
+        background: var(--blanco);
+        border: 1px solid var(--gris-100);
+        border-radius: var(--radius);
+        padding: 22px;
+        cursor: pointer;
+        font-family: inherit;
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          border-color 0.25s ease;
+      }
+      .cover-card::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--gunmetal);
+        transition: width 0.25s ease;
+      }
+      .cover-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--gold);
+      }
+      .cover-card:hover::after {
+        width: 6px;
+      }
+      .cc-num {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: var(--grad-brand);
+        color: var(--blanco);
+        font-weight: 700;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cc-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--azul-grandeza);
+      }
+      .cc-desc {
+        font-size: 12.5px;
+        color: var(--gris-400);
+        line-height: 1.5;
+        flex: 1;
+      }
+      .cc-go {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--azul-neg);
+        margin-top: 4px;
+      }
+
+      /* === Footer note === */
+      .note {
+        margin: 24px 40px 0;
+        font-size: 11px;
+        color: var(--gris-400);
+        text-align: right;
+      }
+
+      /* === Responsive === */
+      @media (max-width: 1080px) {
+        .stage {
+          padding: 24px;
+        }
+        .note {
+          margin: 24px 24px 0;
+        }
+        .kpis {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .cover-cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .cover-title {
+          font-size: 40px;
+        }
+      }
+      @media (max-width: 720px) {
+        .topbar {
+          padding: 10px 16px;
+          gap: 12px;
+        }
+        .periodo-chip {
+          display: none;
+        }
+        .stage {
+          padding: 20px 16px 56px;
+        }
+        .note {
+          margin: 20px 16px 0;
+          text-align: left;
+        }
+        .kpis {
+          grid-template-columns: 1fr;
+        }
+        .cover-cards {
+          grid-template-columns: 1fr;
+        }
+        .cover-title {
+          font-size: 32px;
+        }
+        .cover-desc {
+          font-size: 14px;
+        }
+        .view-title {
+          font-size: 20px;
+        }
+        .view-cover {
+          gap: 28px;
+          padding-top: 12px;
+        }
+        .panel {
+          padding: 18px 16px;
+        }
+        .item-head {
+          grid-template-columns: 26px 1fr auto;
+          row-gap: 6px;
+        }
+        .item-total {
+          grid-column: 2 / 4;
+          justify-self: start;
+          text-align: left;
+        }
+        .bar-wrap,
+        .bar-meta,
+        .item-detail {
+          margin-left: 0;
+        }
+        .gap-summary {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        .gap-divider {
+          display: none;
+        }
+        .modal {
+          padding: 18px 14px;
+        }
+        .modal-head {
+          flex-direction: column;
+        }
+        .hq-dot .cap {
+          font-size: 9px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============ Header fijo con índice ============ -->
+    <header class="topbar">
+      <button class="brand" data-view="cover" aria-label="Ir a la carátula">
+        <span class="brand-dot"></span>
+        <span class="brand-name">Forecast Seguros</span>
+      </button>
+      <nav class="topnav" id="topnav">
+        <button class="navbtn" data-view="indicadores">
+          <span class="navnum">1</span>Indicadores
+        </button>
+        <button class="navbtn" data-view="desglose">
+          <span class="navnum">2</span>Desglose
+        </button>
+        <button class="navbtn" data-view="acciones">
+          <span class="navnum">3</span>Acciones
+        </button>
+        <button class="navbtn" data-view="horquilla">
+          <span class="navnum">4</span>Horquilla
+        </button>
+      </nav>
+      <div class="periodo-chip">Ene–Dic · Ppto 833 Mdp</div>
+    </header>
+
+    <main class="stage">
+      <!-- ===== Carátula ===== -->
+      <section class="view view-cover" data-view="cover">
+        <div class="cover-hero">
+          <span class="cover-eyebrow"
+            >Presupuesto Enero – Diciembre · 833 Mdp · Corte abril</span
+          >
+          <h1 class="cover-title">Forecast Comercial<br />Seguros</h1>
+          <p class="cover-desc">
+            Presupuesto vs escenario aplicado · 9 líneas de negocio
+          </p>
+        </div>
+        <div class="cover-cards">
+          <button class="cover-card" data-view="indicadores">
+            <span class="cc-num">1</span>
+            <span class="cc-title">Indicadores</span>
+            <span class="cc-desc"
+              >Presupuesto, avance a abril y los escenarios realista y optimista
+              de un vistazo.</span
+            >
+            <span class="cc-go">Ver vista →</span>
+          </button>
+          <button class="cover-card" data-view="desglose">
+            <span class="cc-num">2</span>
+            <span class="cc-title">Desglose</span>
+            <span class="cc-desc"
+              >Las 9 líneas de negocio con avance, total realista, optimista y
+              merma por factor.</span
+            >
+            <span class="cc-go">Ver vista →</span>
+          </button>
+          <button class="cover-card" data-view="acciones">
+            <span class="cc-num">3</span>
+            <span class="cc-title">Acciones</span>
+            <span class="cc-desc"
+              >Iniciativas de apoyo para cerrar la brecha de −42.8 Mdp vs
+              presupuesto.</span
+            >
+            <span class="cc-go">Ver vista →</span>
+          </button>
+          <button class="cover-card" data-view="horquilla">
+            <span class="cc-num">4</span>
+            <span class="cc-title">Horquilla</span>
+            <span class="cc-desc"
+              >Rango entre el escenario aplicado y el optimista, y su diferencia
+              vs presupuesto.</span
+            >
+            <span class="cc-go">Ver vista →</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ===== 1. Indicadores ===== -->
+      <section class="view" data-view="indicadores">
+        <div class="view-head">
+          <h2 class="view-title">Indicadores</h2>
+          <p class="view-sub">
+            Presupuesto, avance a abril y escenarios · cifras en Mdp
+          </p>
+        </div>
+        <section class="kpis" id="kpis"></section>
+      </section>
+
+      <!-- ===== 2. Desglose ===== -->
+      <section class="view" data-view="desglose">
+        <div class="view-head">
+          <h2 class="view-title">Desglose por línea de negocio</h2>
+          <p class="view-sub">
+            9 líneas · cada barra se normaliza a su escenario optimista (100%)
+          </p>
+        </div>
+        <div class="panel">
+          <div class="legend legend-below">
+            <span class="lg-real">Avance</span>
+            <span class="lg-est">Estimado realista (optimista x factor)</span>
+            <span class="lg-opt">Escenario optimista (100%)</span>
+          </div>
+          <div class="items" id="items"></div>
+        </div>
+      </section>
+
+      <!-- ===== 3. Acciones ===== -->
+      <section class="view" data-view="acciones">
+        <div class="view-head">
+          <h2 class="view-title">Acciones de apoyo</h2>
+          <p class="view-sub">
+            Para cerrar la brecha de −42.8 Mdp vs presupuesto
+          </p>
+        </div>
+        <div class="panel">
+          <div class="actions-list" id="actions"></div>
+          <div class="gap-summary">
+            <div>
+              <div class="lbl">Brecha actual</div>
+              <div class="val">−42.8 Mdp</div>
+            </div>
+            <div class="gap-divider"></div>
+            <div>
+              <div class="lbl">Acciones cuantificadas</div>
+              <div class="val gold">+60.0 Mdp</div>
+            </div>
+            <div class="gap-divider"></div>
+            <div>
+              <div class="lbl">Margen neto</div>
+              <div class="val">+17.2 Mdp</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 4. Horquilla ===== -->
+      <section class="view" data-view="horquilla">
+        <div class="view-head">
+          <h2 class="view-title">Horquilla del forecast</h2>
+          <p class="view-sub">
+            Distancia entre el forecast aplicado y el optimista (100%) · Corte a
+            abril
+          </p>
+        </div>
+        <div class="horquilla">
+          <div class="hq-bar" id="horquilla"></div>
+          <div class="hq-labels">
+            <span>700 Mdp</span>
+            <span>900 Mdp</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ Modal: Prima promedio por producto ============ -->
+    <div class="modal-overlay" id="primaModal" hidden>
+      <div class="modal" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <div>
+            <div class="panel-title">
+              Prima promedio por producto · Banca Privada
+            </div>
+            <div class="panel-sub">
+              Producción mensual May–Dic por ramo · cambia entre pólizas y prima
+              (Mdp)
+            </div>
+          </div>
+          <div class="modal-head-right">
+            <div class="prima-toggle" id="primaToggle">
+              <button data-view="polizas" class="active">Pólizas</button>
+              <button data-view="prima">Prima (Mdp)</button>
+            </div>
+            <button class="modal-close" id="primaClose" aria-label="Cerrar">
+              ×
+            </button>
+          </div>
+        </div>
+        <div class="prima-table-wrap">
+          <table class="prima-table" id="primaTable"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      Cifras en millones de pesos (Mdp) · Presupuesto Enero–Diciembre
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+      // ====== DATA ======
+      const PRESUPUESTO = 833;
+      const ESC_ACTUAL = 790.2;
+      const ESC_TECHO = 882.16; // presupuesto + 49.16
+      const HORQUILLA = 92.21;
+
+      const items = [
+        {
+          n: 1,
+          name: "Arrendadora",
+          opt: 7,
+          factor: 1.0,
+          Avance: 5.9,
+          estimado: 7.0,
+          total: 12.9,
+          desglose: [
+            "BAU 2Mdp",
+            "Oportunidades: 50Mdp × 10% éxito = 5Mdp",
+            // Agrega aquí 1 punto más si lo necesitas
+          ],
+        },
+        {
+          n: 2,
+          name: "Wealth Management",
+          opt: 32,
+          factor: 0.8,
+          Avance: 17.3,
+          estimado: 25.6,
+          total: 42.9,
+          desglose: [
+            "Regla: 3 dotales × 0.5Mdp prima prom × 18 asesores = 27Mdp en 8 meses",
+            "5Mdp en pipeline desglosados en 4.4Mdp dotales de familia Castrejón + 0.6Mdp empresa GND",
+          ],
+        },
+        {
+          n: 3,
+          name: "Banca Corporativa",
+          opt: 22.85,
+          factor: 0.5,
+          Avance: 1.8,
+          estimado: 11.4,
+          total: 13.2,
+          desglose: [
+            "2.8Mdp en pipeline",
+            "10Mdp de RC Mateo",
+            "10Mdp oportunidades al año",
+          ],
+        },
+        {
+          n: 4,
+          name: "Renovación",
+          opt: 158.23,
+          factor: 1.0,
+          Avance: 146.5,
+          estimado: 158.23,
+          total: 304.7,
+          desglose: ["Se restó el 25% en el optimista"],
+        },
+        {
+          n: 5,
+          name: "Empresarial",
+          opt: 0,
+          factor: 0,
+          Avance: 0,
+          estimado: 0,
+          total: 0,
+          desglose: ["Sin previsión este periodo"],
+        },
+        {
+          n: 6,
+          name: "Growt",
+          opt: 32,
+          factor: 0.9,
+          Avance: 0,
+          estimado: 28.8,
+          total: 28.8,
+          desglose: [
+            "250 pólizas de auto × 8.000 prima prom = 2Mdp",
+            "10.000 pólizas de mascota × 3.000 prima prom = 30Mdp",
+          ],
+        },
+        {
+          n: 7,
+          name: "Actinver Patrimonial",
+          opt: 119.5,
+          factor: 0.7,
+          Avance: 24.4,
+          estimado: 83.6,
+          total: 108.0,
+          desglose: [
+            "Restante de presupuesto de 145",
+            "No tiene lógica por ahora",
+          ],
+        },
+        {
+          n: 8,
+          name: "Banca Privada",
+          opt: 176.64,
+          factor: 0.8,
+          Avance: 44.2,
+          estimado: 141.3,
+          total: 185.5,
+          desglose: ["Ver cuadro de prima promedio por producto"],
+        },
+        {
+          n: 9,
+          name: "Directo Seguros",
+          opt: 90,
+          factor: 1.0,
+          Avance: 4.1,
+          estimado: 90,
+          total: 94.1,
+          desglose: ["Póliza de CABSA por 90Mdp"],
+        },
+      ];
+
+      const actions = [
+        {
+          id: "A",
+          name: "Campaña Cyber · Corporativo",
+          target: "Objetivo: 10 empresas",
+          calc: "Oportunidad: 400 empresas × 2.5Mdp = 1.000 Mdp",
+          value: 25,
+        },
+        {
+          id: "B",
+          name: "Campaña Cyber · Presuscrito",
+          target: "Objetivo: 30 PYMES",
+          calc: "Oportunidad: 10.000 empresas × 0.1Mdp = 1.000 Mdp",
+          value: 3,
+        },
+        {
+          id: "C",
+          name: "Campaña Multihogar",
+          target: "Objetivo: 200 pólizas.",
+          calc: "Aplica Privada y wM · Prima prom 0.9Mdp × 200  = 18 Mdp",
+          value: 18,
+        },
+        {
+          id: "D",
+          name: "Renovación",
+          target: "Objetivo: subir 7 pts (75% → 82%)",
+          calc: "Cada punto que rejuvenezca = 2Mdp adicionales",
+          value: 14,
+        },
+        {
+          id: "E",
+          name: "Pendiente de validar",
+          target: "Estrategia Fiduciario · Provisión foral · Empleados",
+          calc: "Aún sin cuantificar — depende de cierre",
+          value: null,
+          pending: true,
+        },
+      ];
+
+      // ====== Avance ======
+      // El avance correcto es 244.4 Mdp; el remanente decimal se reparte entre
+      // las líneas que tienen Avance, sin alterar los valores base mostrados.
+      const AVANCE_OBJETIVO = 244.4;
+      const lineasConAvance = items.filter((i) => i.Avance > 0);
+      const rawAvance = items.reduce((s, i) => s + i.Avance, 0);
+      const ajustePorLinea =
+        (AVANCE_OBJETIVO - rawAvance) / lineasConAvance.length;
+      lineasConAvance.forEach((i) => (i.Avance += ajustePorLinea));
+
+      // ====== KPI render ======
+      const AVANCE = items.reduce((s, i) => s + i.Avance, 0); // suma de lo Avance
+      const avancePct = ((AVANCE / PRESUPUESTO) * 100).toFixed(0);
+
+      const kpiData = [
+        {
+          cls: "kpi-budget",
+          label: "Presupuesto",
+          value: PRESUPUESTO,
+          foot: "Enero a Diciembre",
+          delta: null,
+        },
+        {
+          cls: "kpi-actions",
+          label: "Avance ",
+          value: AVANCE,
+          foot: "Real Enero a Abril",
+          delta: { text: `≈ ${avancePct}% del presupuesto`, cls: "warm" },
+        },
+        {
+          cls: "kpi-current",
+          label: "Escenario realista",
+          value: ESC_ACTUAL,
+          foot: "Avance + realista (con factores)",
+          delta: { text: "−42.8 Mdp vs presupuesto", cls: "neg" },
+        },
+        {
+          cls: "kpi-ceiling",
+          label: "Escenario optimista",
+          value: ESC_TECHO,
+          foot: "Avance + optimista (100%)",
+          delta: { text: "+49.2 Mdp sobre presupuesto", cls: "pos" },
+        },
+      ];
+
+      const fmt = (v) =>
+        v.toLocaleString("es-ES", {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 1,
+        });
+
+      document.getElementById("kpis").innerHTML = kpiData
+        .map(
+          (k) => `
+        <div class="kpi ${k.cls}">
+          <div class="kpi-label">${k.label}</div>
+          <div class="kpi-value">${fmt(k.value)}<span class="unit">Mdp</span></div>
+          ${k.delta ? `<div class="kpi-delta ${k.delta.cls}">${k.delta.text}</div>` : ""}
+          <div class="kpi-foot">${k.foot}</div>
+        </div>
+      `,
+        )
+        .join("");
+
+      // ====== Items render ======
+      // Cada barra se normaliza a SU PROPIO escenario optimista (Avance + optimista),
+      // que es el límite (100%) de la línea. Así ninguna línea se pierde por escala.
+      const itemsHtml = items
+        .map((it, idx) => {
+          const limite = it.Avance + it.opt; // escenario optimista de la línea = 100%
+          const merma = it.opt - it.estimado; // potencial perdido por factor
+          const wReal = limite > 0 ? (it.Avance / limite) * 100 : 0;
+          const wEst = limite > 0 ? (it.estimado / limite) * 100 : 0;
+          const wMerma = limite > 0 ? (merma / limite) * 100 : 0;
+          const factorTxt =
+            it.factor === 0 ? "—" : (it.factor * 100).toFixed(0) + "%";
+          const hayMerma = wMerma > 0.3;
+          // radios: la última pieza visible redondea por la derecha
+          const realCls =
+            wEst === 0 && !hayMerma ? "bar-real solo" : "bar-real";
+          const estCls =
+            it.Avance === 0
+              ? hayMerma
+                ? "bar-est first"
+                : "bar-est solo"
+              : hayMerma
+                ? "bar-est"
+                : "bar-est last";
+
+          return `
+          <div class="item" data-idx="${idx}">
+            <div class="item-head">
+              <div class="item-num">${it.n}</div>
+              <div class="item-name">${it.name}</div>
+              <div class="factor-chip ${it.factor === 0 ? "f-zero" : ""}">éxito × ${factorTxt}</div>
+              <div class="item-total">${fmt(it.total)}<span class="unit-sm"> Mdp</span></div>
+            </div>
+            <div class="bar-wrap" data-tooltip="${idx}">
+              <div class="bar-track"></div>
+              ${wReal > 0 ? `<div class="${realCls}" style="width:0%" data-target="${wReal}"></div>` : ""}
+              ${wEst > 0 ? `<div class="${estCls}" style="left:${wReal}%;width:0%" data-target="${wEst}"></div>` : ""}
+              ${hayMerma ? `<div class="bar-merma" style="left:${wReal + wEst}%;width:0%" data-target="${wMerma}"></div>` : ""}
+              ${limite > 0 ? `<div class="bar-limit" title="Límite optimista ${fmt(limite)} Mdp"></div>` : ""}
+            </div>
+            <div class="bar-meta">
+              ${it.Avance > 0 ? `<span class="mk m-real">Avance <b>${fmt(it.Avance)}</b></span>` : ""}
+              ${it.total > 0 ? `<span class="mk m-est">Total realista <b>${fmt(it.total)}</b> <small>(+${fmt(it.total - it.Avance)} vs avance)</small></span>` : ""}
+              ${limite > 0 ? `<span class="mk m-techo">Total optimista <b>${fmt(limite)}</b> <small>(+${fmt(limite - it.Avance)} vs avance)</small></span>` : ""}
+              ${
+                it.opt > 0
+                  ? merma > 0.05
+                    ? `<span class="merma">Merma por factor −${fmt(merma)} Mdp</span>`
+                    : `<span class="merma none">Sin merma</span>`
+                  : ""
+              }
+            </div>
+            <div class="item-detail">
+              <div class="det-block">
+                <span class="lbl">Desglose</span>
+                <ul class="desglose-list">
+                  ${it.desglose.map((p) => `<li>${p}</li>`).join("")}
+                </ul>
+              </div>
+              ${
+                it.name === "Banca Privada"
+                  ? `<button class="ver-cuadro-btn" data-prima="1">Ver cuadro de prima promedio</button>`
+                  : ""
+              }
+            </div>
+          </div>
+        `;
+        })
+        .join("");
+
+      document.getElementById("items").innerHTML = itemsHtml;
+
+      // Animación de barras (reutilizable al entrar a la vista Desglose)
+      function animateBars() {
+        const bars = document.querySelectorAll(
+          ".bar-real, .bar-est, .bar-merma",
+        );
+        bars.forEach((el) => (el.style.width = "0%"));
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            bars.forEach((el) => (el.style.width = el.dataset.target + "%"));
+          }),
+        );
+      }
+
+      // Click to expand
+      document.querySelectorAll(".item").forEach((el) => {
+        el.addEventListener("click", () => {
+          const wasActive = el.classList.contains("active");
+          document
+            .querySelectorAll(".item")
+            .forEach((i) => i.classList.remove("active"));
+          if (!wasActive) el.classList.add("active");
+        });
+      });
+
+      // Tooltip
+      const tip = document.getElementById("tooltip");
+      document.querySelectorAll(".bar-wrap").forEach((bw) => {
+        bw.addEventListener("mousemove", (e) => {
+          const i = items[bw.dataset.tooltip];
+          const limite = i.Avance + i.opt;
+          const merma = i.opt - i.estimado;
+          tip.innerHTML = `<strong>${i.name}</strong>
+            Avance: ${fmt(i.Avance)} Mdp<br>
+            Factor de éxito: ${i.factor === 0 ? "—" : (i.factor * 100).toFixed(0) + "%"}<br>
+            Total realista: ${fmt(i.total)} Mdp <span style="opacity:.7">(+${fmt(i.total - i.Avance)} vs avance)</span><br>
+            Total optimista: ${fmt(limite)} Mdp <span style="opacity:.7">(+${fmt(limite - i.Avance)} vs avance)</span><br>
+            <span style="color:#E5C78A;font-weight:600">Merma por factor: ${merma > 0.05 ? "−" + fmt(merma) + " Mdp" : "sin merma (100%)"}</span>`;
+          tip.classList.add("show");
+          const pad = 14;
+          let x = e.clientX + pad;
+          let y = e.clientY + pad;
+          if (x + 280 > window.innerWidth) x = e.clientX - 280;
+          tip.style.left = x + "px";
+          tip.style.top = y + "px";
+        });
+        bw.addEventListener("mouseleave", () => tip.classList.remove("show"));
+      });
+
+      // ====== Actions render ======
+      document.getElementById("actions").innerHTML = actions
+        .map(
+          (a) => `
+        <div class="action ${a.pending ? "pending" : ""}">
+          <div class="action-badge">${a.id}</div>
+          <div class="action-body">
+            <div class="action-name">${a.name}</div>
+            <div class="action-target">${a.target}</div>
+            <div class="action-calc">${a.calc}</div>
+          </div>
+          <div class="action-value">
+            ${a.value !== null ? `+${fmt(a.value)}<small>Mdp</small>` : `Pendiente`}
+          </div>
+        </div>
+      `,
+        )
+        .join("");
+
+      // ====== Horquilla render ======
+      // Range from 700 to 900 (200 width)
+      const hqMin = 700,
+        hqMax = 900,
+        hqSpan = hqMax - hqMin;
+      const pct = (v) => ((v - hqMin) / hqSpan) * 100;
+
+      const signed = (v) =>
+        (v >= 0 ? "+" : "−") + fmt(Math.abs(v)) + " vs ppto";
+
+      document.getElementById("horquilla").innerHTML = `
+        <div class="hq-track"></div>
+        <div class="hq-range" style="left:${pct(ESC_ACTUAL)}%;width:${pct(ESC_TECHO) - pct(ESC_ACTUAL)}%"></div>
+        <div class="hq-mark" style="left:${pct(PRESUPUESTO)}%">
+          <span class="tag">Presup. ${fmt(PRESUPUESTO)}</span>
+        </div>
+        <div class="hq-dot actual"  style="left:calc(${pct(ESC_ACTUAL)}% - 5px)"  title="Escenario aplicado">
+          <span class="cap">${fmt(ESC_ACTUAL)}<small>Aplicado</small><span class="diff">${signed(ESC_ACTUAL - PRESUPUESTO)}</span></span>
+        </div>
+        <div class="hq-dot ceiling" style="left:calc(${pct(ESC_TECHO)}% - 5px)"   title="Escenario optimista 100%">
+          <span class="cap">${fmt(ESC_TECHO)}<small>Optimista</small><span class="diff">${signed(ESC_TECHO - PRESUPUESTO)}</span></span>
+        </div>
+      `;
+
+      // ====== Prima promedio por producto ======
+      const MESES = ["May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+      const primaData = [
+        {
+          ramo: "Auto",
+          prom: 10686,
+          polizas: [500, 500, 500, 500, 500, 500, 500, 350],
+          prima: [
+            5343000, 5343000, 5343000, 5343000, 5343000, 5343000, 5343000,
+            3740100,
+          ],
+        },
+        {
+          ramo: "Dotal",
+          prom: 126607,
+          polizas: [41, 47, 64, 86, 116, 157, 211, 157],
+          prima: [
+            5190887, 5969520, 8058852, 10879450, 14687258, 19827798, 26767528,
+            19827798,
+          ],
+        },
+        {
+          ramo: "Empresarial",
+          prom: 112698,
+          polizas: [16, 18, 19, 21, 23, 26, 31, 31],
+          prima: [
+            1803168, 1983485, 2181833, 2400017, 2640018, 2904020, 3484824,
+            3484824,
+          ],
+        },
+        {
+          ramo: "Hogar",
+          prom: 6007,
+          polizas: [71, 71, 71, 71, 71, 71, 71, 71],
+          prima: [
+            426497, 426497, 426497, 426497, 426497, 426497, 426497, 426497,
+          ],
+        },
+      ];
+
+      const nfInt = (v) => v.toLocaleString("es-MX");
+      const nfMoney = (v) => "$" + Math.round(v).toLocaleString("es-MX");
+      // pesos → millones de pesos (Mdp)
+      const mdp = (v) =>
+        (v / 1e6).toLocaleString("es-MX", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+
+      // mezcla #314566 (alto) → #d6dae0 (bajo) según intensidad 0..1
+      function shade(t) {
+        const a = [49, 69, 102],
+          b = [214, 218, 224];
+        const c = a.map((x, i) => Math.round(b[i] + (x - b[i]) * t));
+        return `rgb(${c[0]},${c[1]},${c[2]})`;
+      }
+      const textOn = (t) => (t > 0.55 ? "#fff" : "var(--azul-grandeza)");
+
+      function renderPrima(view) {
+        const isPoliza = view === "polizas";
+        const rows = primaData.map((r) => {
+          const vals = isPoliza ? r.polizas : r.prima;
+          return { ...r, vals, total: vals.reduce((s, x) => s + x, 0) };
+        });
+        const maxVal = Math.max(...rows.flatMap((r) => r.vals));
+        const fmtCell = isPoliza ? nfInt : mdp;
+
+        let head =
+          `<thead><tr><th class="ramo">Ramo</th><th class="prima-prom" style="text-align:left">Prima prom.</th>` +
+          MESES.map((m) => `<th>${m}</th>`).join("") +
+          `<th class="total-col">Total</th></tr></thead>`;
+
+        let body = rows
+          .map((r) => {
+            const cells = r.vals
+              .map((v) => {
+                const t = maxVal ? v / maxVal : 0;
+                return `<td class="cell" style="background:${shade(t)};color:${textOn(t)}">${fmtCell(v)}</td>`;
+              })
+              .join("");
+            return `<tr>
+              <td class="ramo">${r.ramo}</td>
+              <td class="prima-prom">${nfMoney(r.prom)}</td>
+              ${cells}
+              <td class="total-col">${fmtCell(r.total)}</td>
+            </tr>`;
+          })
+          .join("");
+
+        // fila de totales por mes
+        const totByMonth = MESES.map((_, i) =>
+          rows.reduce((s, r) => s + r.vals[i], 0),
+        );
+        const granTotal = totByMonth.reduce((s, x) => s + x, 0);
+        const totRow = `<tr class="totales">
+          <td class="ramo">Totales</td>
+          <td></td>
+          ${totByMonth.map((v) => `<td>${fmtCell(v)}</td>`).join("")}
+          <td class="total-col">${fmtCell(granTotal)}</td>
+        </tr>`;
+
+        document.getElementById("primaTable").innerHTML =
+          head + "<tbody>" + body + totRow + "</tbody>";
+      }
+
+      renderPrima("polizas");
+      document.querySelectorAll("#primaToggle button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll("#primaToggle button")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderPrima(btn.dataset.view);
+        });
+      });
+
+      // ====== Modal de prima (abierto desde Banca Privada) ======
+      const primaModal = document.getElementById("primaModal");
+      const cerrarPrima = () => primaModal.setAttribute("hidden", "");
+      document.querySelectorAll(".ver-cuadro-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation(); // no colapsar la fila al abrir
+          primaModal.removeAttribute("hidden");
+        });
+      });
+      document
+        .getElementById("primaClose")
+        .addEventListener("click", cerrarPrima);
+      primaModal.addEventListener("click", (e) => {
+        if (e.target === primaModal) cerrarPrima();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !primaModal.hasAttribute("hidden"))
+          cerrarPrima();
+      });
+
+      // ====== Navegación por scroll (índice del header + tarjetas) ======
+      const views = document.querySelectorAll(".view");
+      const navbtns = document.querySelectorAll(".navbtn");
+
+      function goTo(v) {
+        const sec = document.querySelector(`.view[data-view="${v}"]`);
+        if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      document
+        .querySelectorAll(".navbtn, .cover-card, .brand")
+        .forEach((el) => {
+          el.addEventListener("click", () => goTo(el.dataset.view));
+        });
+
+      // Resaltado del índice según la sección visible (scroll-spy)
+      const spy = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              const v = e.target.dataset.view;
+              navbtns.forEach((b) =>
+                b.classList.toggle("active", b.dataset.view === v),
+              );
+            }
+          });
+        },
+        { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+      );
+      views.forEach((s) => spy.observe(s));
+
+      // Animar las barras la primera vez que el desglose entra en pantalla
+      const desg = document.querySelector('.view[data-view="desglose"]');
+      if (desg) {
+        const barSpy = new IntersectionObserver(
+          (entries, o) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                animateBars();
+                o.disconnect();
+              }
+            });
+          },
+          { threshold: 0.12 },
+        );
+        barSpy.observe(desg);
+      }
+    </script>
+  </body>
+</html>
