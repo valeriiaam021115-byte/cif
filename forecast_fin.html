@@ -356,7 +356,7 @@
       }
 
       /* Bar — el track completo = escenario optimista de la línea (límite, 100%).
-         Relleno = Avance + estimado; la zona rayada = merma por factor. */
+         Relleno = Avance + estimado; la zona rayada = Diferencia por escenario. */
       .bar-wrap {
         position: relative;
         height: 14px;
@@ -470,6 +470,23 @@
           transparent 1.5px,
           transparent 4px
         );
+      }
+      .bar-meta .m-ppto {
+        margin-left: auto;
+        background: var(--azul-grandeza);
+        color: var(--blanco);
+        padding: 3px 11px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 11px;
+      }
+      .bar-meta .m-ppto b {
+        color: var(--gold);
+        font-weight: 700;
+        margin-left: 2px;
+      }
+      .bar-meta .m-ppto::before {
+        display: none;
       }
       .bar-meta b {
         color: var(--azul-grandeza);
@@ -1388,7 +1405,7 @@
           <span class="navnum">4</span>Horquilla
         </button>
       </nav>
-      <div class="periodo-chip">Ene–Dic · Ppto 833 Mdp</div>
+      <div class="periodo-chip">Ene–Dic · Ppto 833.37 Mdp</div>
     </header>
 
     <main class="stage">
@@ -1396,7 +1413,7 @@
       <section class="view view-cover" data-view="cover">
         <div class="cover-hero">
           <span class="cover-eyebrow"
-            >Presupuesto Enero – Diciembre · 833 Mdp · Corte abril</span
+            >Presupuesto Enero – Diciembre · 833.37 Mdp · Corte abril</span
           >
           <h1 class="cover-title">Forecast Comercial<br />Seguros</h1>
           <p class="cover-desc">
@@ -1417,8 +1434,8 @@
             <span class="cc-num">2</span>
             <span class="cc-title">Desglose</span>
             <span class="cc-desc"
-              >Las 9 líneas de negocio con avance, total realista, optimista y
-              merma por factor.</span
+              >Las 9 líneas de negocio con presupuesto, avance, total realista,
+              optimista y Diferencia por escenario.</span
             >
             <span class="cc-go">Ver vista →</span>
           </button>
@@ -1426,7 +1443,7 @@
             <span class="cc-num">3</span>
             <span class="cc-title">Acciones</span>
             <span class="cc-desc"
-              >Iniciativas de apoyo para cerrar la brecha de −42.8 Mdp vs
+              >Iniciativas de apoyo para cerrar la brecha de −72.3 Mdp vs
               presupuesto.</span
             >
             <span class="cc-go">Ver vista →</span>
@@ -1477,7 +1494,7 @@
         <div class="view-head">
           <h2 class="view-title">Acciones de apoyo</h2>
           <p class="view-sub">
-            Para cerrar la brecha de −42.8 Mdp vs presupuesto
+            Para cerrar la brecha de −72.3 Mdp vs presupuesto
           </p>
         </div>
         <div class="panel">
@@ -1485,7 +1502,7 @@
           <div class="gap-summary">
             <div>
               <div class="lbl">Brecha actual</div>
-              <div class="val">−42.8 Mdp</div>
+              <div class="val">−72.3 Mdp</div>
             </div>
             <div class="gap-divider"></div>
             <div>
@@ -1494,8 +1511,8 @@
             </div>
             <div class="gap-divider"></div>
             <div>
-              <div class="lbl">Margen neto</div>
-              <div class="val">+17.2 Mdp</div>
+              <div class="lbl">Brecha nueva</div>
+              <div class="val">−12.3 Mdp</div>
             </div>
           </div>
         </div>
@@ -1557,29 +1574,27 @@
 
     <script>
       // ====== DATA ======
-      const PRESUPUESTO = 833;
-      const ESC_ACTUAL = 790.2;
-      const ESC_TECHO = 882.16; // presupuesto + 49.16
-      const HORQUILLA = 92.21;
+      const PRESUPUESTO = 833.37;
+      const ESC_ACTUAL = 761.1; // suma de totales realistas
+      const ESC_TECHO = 841.62; // avance + suma de optimistas
+      const HORQUILLA = ESC_TECHO - ESC_ACTUAL;
 
       const items = [
         {
           n: 1,
           name: "Arrendadora",
+          ppto: 10.18,
           opt: 7,
           factor: 1.0,
           Avance: 5.9,
           estimado: 7.0,
           total: 12.9,
-          desglose: [
-            "BAU 2Mdp",
-            "Oportunidades: 50Mdp × 10% éxito = 5Mdp",
-            // Agrega aquí 1 punto más si lo necesitas
-          ],
+          desglose: ["BAU 2Mdp", "Oportunidades: 50Mdp × 10% éxito = 5Mdp"],
         },
         {
           n: 2,
           name: "Wealth Management",
+          ppto: 12.12,
           opt: 32,
           factor: 0.8,
           Avance: 17.3,
@@ -1593,6 +1608,7 @@
         {
           n: 3,
           name: "Banca Corporativa",
+          ppto: 25.37,
           opt: 22.85,
           factor: 0.5,
           Avance: 1.8,
@@ -1607,6 +1623,7 @@
         {
           n: 4,
           name: "Renovación",
+          ppto: 313.4,
           opt: 158.23,
           factor: 1.0,
           Avance: 146.5,
@@ -1617,58 +1634,62 @@
         {
           n: 5,
           name: "Empresarial",
-          opt: 0,
-          factor: 0,
+          ppto: 22.5,
+          opt: 9,
+          factor: 1.0,
           Avance: 0,
-          estimado: 0,
-          total: 0,
-          desglose: ["Sin previsión este periodo"],
+          estimado: 9.0,
+          total: 9.0,
+          desglose: ["Optimista 9Mdp", "Éxito esperado 100%"],
         },
         {
           n: 6,
-          name: "Growt",
+          name: "Growth",
+          ppto: 44.1,
           opt: 32,
           factor: 0.9,
           Avance: 0,
           estimado: 28.8,
           total: 28.8,
           desglose: [
-            "250 pólizas de auto × 8.000 prima prom = 2Mdp",
-            "10.000 pólizas de mascota × 3.000 prima prom = 30Mdp",
+            "250 pólizas de auto × 8.000 prima promedio = 2Mdp",
+            "10.000 pólizas de mascota × 3.000 prima promedio = 30Mdp",
           ],
         },
         {
           n: 7,
           name: "Actinver Patrimonial",
+          ppto: 144.0,
           opt: 119.5,
-          factor: 0.7,
+          factor: 0.8,
           Avance: 24.4,
-          estimado: 83.6,
-          total: 108.0,
-          desglose: [
-            "Restante de presupuesto de 145",
-            "No tiene lógica por ahora",
-          ],
+          estimado: 95.6,
+          total: 120.0,
+          desglose: ["Compromiso de la banca 144Mdp", "Éxito esperado 80%"],
         },
         {
           n: 8,
           name: "Banca Privada",
+          ppto: 225.0,
           opt: 176.64,
           factor: 0.8,
           Avance: 44.2,
           estimado: 141.3,
           total: 185.5,
-          desglose: ["Ver cuadro de prima promedio por producto"],
+          desglose: [
+            "Ver cuadro de prima promedio por producto como referencia",
+          ],
         },
         {
           n: 9,
           name: "Directo Seguros",
-          opt: 90,
+          ppto: 36.7,
+          opt: 40.0,
           factor: 1.0,
           Avance: 4.1,
-          estimado: 90,
-          total: 94.1,
-          desglose: ["Póliza de CABSA por 90Mdp"],
+          estimado: 40.0,
+          total: 44.1,
+          desglose: ["Póliza de CABSA con valor de 40Mdp"],
         },
       ];
 
@@ -1691,14 +1712,14 @@
           id: "C",
           name: "Campaña Multihogar",
           target: "Objetivo: 200 pólizas.",
-          calc: "Aplica Privada y WM · Prima prom 0.9Mdp × 200  = 18 Mdp",
+          calc: "Aplica Privada y WM · Prima prom 0.09Mdp × 200  = 18 Mdp",
           value: 18,
         },
         {
           id: "D",
           name: "Renovación",
           target: "Objetivo: subir 7 pts (75% → 82%)",
-          calc: "Cada punto que rejuvenezca = 2Mdp adicionales",
+          calc: "Cada punto que incrementa = 2Mdp adicionales",
           value: 14,
         },
         {
@@ -1745,14 +1766,14 @@
           label: "Escenario realista",
           value: ESC_ACTUAL,
           foot: "Avance + realista (con factores)",
-          delta: { text: "−42.8 Mdp vs presupuesto", cls: "neg" },
+          delta: { text: "−72.3 Mdp vs presupuesto", cls: "neg" },
         },
         {
           cls: "kpi-ceiling",
           label: "Escenario optimista",
           value: ESC_TECHO,
           foot: "Avance + optimista (100%)",
-          delta: { text: "+49.2 Mdp sobre presupuesto", cls: "pos" },
+          delta: { text: "+8.3 Mdp sobre presupuesto", cls: "pos" },
         },
       ];
 
@@ -1778,6 +1799,7 @@
       // ====== Items render ======
       // Cada barra se normaliza a SU PROPIO escenario optimista (Avance + optimista),
       // que es el límite (100%) de la línea. Así ninguna línea se pierde por escala.
+      const sgn = (v) => (v >= 0 ? "+" : "−") + fmt(Math.abs(v));
       const itemsHtml = items
         .map((it, idx) => {
           const limite = it.Avance + it.opt; // escenario optimista de la línea = 100%
@@ -1817,15 +1839,16 @@
             </div>
             <div class="bar-meta">
               ${it.Avance > 0 ? `<span class="mk m-real">Avance <b>${fmt(it.Avance)}</b></span>` : ""}
-              ${it.total > 0 ? `<span class="mk m-est">Total realista <b>${fmt(it.total)}</b> <small>(+${fmt(it.total - it.Avance)} vs avance)</small></span>` : ""}
-              ${limite > 0 ? `<span class="mk m-techo">Total optimista <b>${fmt(limite)}</b> <small>(+${fmt(limite - it.Avance)} vs avance)</small></span>` : ""}
+              ${it.total > 0 ? `<span class="mk m-est">Total realista <b>${fmt(it.total)}</b></span>` : ""}
+              ${limite > 0 ? `<span class="mk m-techo">Total optimista <b>${fmt(limite)}</b></span>` : ""}
               ${
                 it.opt > 0
                   ? merma > 0.05
-                    ? `<span class="merma">Merma por factor −${fmt(merma)} Mdp</span>`
-                    : `<span class="merma none">Sin merma</span>`
+                    ? `<span class="merma">Diferencia por escenario −${fmt(merma)} Mdp</span>`
+                    : `<span class="merma none">Sin diferencia</span>`
                   : ""
               }
+              ${it.ppto > 0 ? `<span class="mk m-ppto">Ppto <b>${fmt(it.ppto)}</b></span>` : ""}
             </div>
             <div class="item-detail">
               <div class="det-block">
@@ -1879,11 +1902,12 @@
           const limite = i.Avance + i.opt;
           const merma = i.opt - i.estimado;
           tip.innerHTML = `<strong>${i.name}</strong>
+            ${i.ppto > 0 ? `Presupuesto: ${fmt(i.ppto)} Mdp<br>` : ""}
             Avance: ${fmt(i.Avance)} Mdp<br>
             Factor de éxito: ${i.factor === 0 ? "—" : (i.factor * 100).toFixed(0) + "%"}<br>
-            Total realista: ${fmt(i.total)} Mdp <span style="opacity:.7">(+${fmt(i.total - i.Avance)} vs avance)</span><br>
-            Total optimista: ${fmt(limite)} Mdp <span style="opacity:.7">(+${fmt(limite - i.Avance)} vs avance)</span><br>
-            <span style="color:#E5C78A;font-weight:600">Merma por factor: ${merma > 0.05 ? "−" + fmt(merma) + " Mdp" : "sin merma (100%)"}</span>`;
+            Total realista: ${fmt(i.total)} Mdp<br>
+            Total optimista: ${fmt(limite)} Mdp<br>
+            <span style="color:#E5C78A;font-weight:600">Diferencia por escenario: ${merma > 0.05 ? "−" + fmt(merma) + " Mdp" : "sin diferencia (100%)"}</span>`;
           tip.classList.add("show");
           const pad = 14;
           let x = e.clientX + pad;
