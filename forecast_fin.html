@@ -1758,8 +1758,8 @@
         <div class="view-head">
           <h2 class="view-title">Personas físicas y morales</h2>
           <p class="view-sub">
-            Agregación por tipo de cliente · Real Ene–May vs Ppto Ene–Dic ·
-            cifras en Mdp (Renovación no incluida)
+            Tipo de cliente · Real Ene–May vs Ppto Ene–Dic · cifras en Mdp
+            (Renovación no incluida)
           </p>
         </div>
         <div class="panel">
@@ -2215,7 +2215,7 @@
             181.48, 203.24, 225.0,
           ],
         },
-        "Directo Seguros + Negocios Especiales": {
+        "Directo Seguros": {
           real: [
             0.68,
             0.68,
@@ -2447,7 +2447,7 @@
         },
         {
           name: "Directo Seguros + Negocios Especiales",
-          sub: "Pólizas Directo · Mascotas · Auto · Negocios especiales",
+          sub: "",
           real: [
             0.68,
             0.68,
@@ -2481,7 +2481,7 @@
           <div class="persona-head">
             <div class="persona-title-block">
               <div class="persona-title">${g.name}</div>
-              <div class="persona-sub">${g.sub}</div>
+              ${g.sub ? `<div class="persona-sub">${g.sub}</div>` : ""}
             </div>
             <div class="persona-totals">
               <div class="persona-tot">
