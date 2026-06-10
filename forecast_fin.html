@@ -522,7 +522,7 @@
         line-height: 1.55;
       }
       .item.active .item-detail {
-        max-height: 320px;
+        max-height: 560px;
         margin-top: 12px;
       }
       .item-detail-grid {
@@ -635,6 +635,258 @@
         color: var(--gris-300);
         font-size: 13px;
         font-weight: 600;
+      }
+
+      /* === Sparkline embebida por línea (Real vs Ppto Ene–Dic) · oculta hasta clic === */
+      .item-spark {
+        margin: 0 0 14px 0;
+        padding: 12px 14px 8px;
+        background: var(--gris-100);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--gris-200);
+      }
+      .item-spark-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+      }
+      .item-spark-title {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--azul-grandeza);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .item-spark-legend {
+        display: flex;
+        gap: 14px;
+        font-size: 10px;
+        color: var(--gris-400);
+        font-weight: 500;
+      }
+      .item-spark-legend .sw {
+        display: inline-block;
+        width: 14px;
+        height: 2px;
+        margin-right: 5px;
+        vertical-align: middle;
+        border-radius: 2px;
+      }
+      .item-spark-legend .sw-real {
+        background: var(--azul-grandeza);
+      }
+      .item-spark-legend .sw-ppto {
+        background-image: linear-gradient(
+          90deg,
+          var(--gold) 0,
+          var(--gold) 4px,
+          transparent 4px,
+          transparent 7px,
+          var(--gold) 7px,
+          var(--gold) 11px,
+          transparent 11px,
+          transparent 14px
+        );
+        background-color: transparent;
+      }
+      .item-spark-svg {
+        width: 100%;
+        height: auto;
+        max-height: 130px;
+        display: block;
+        overflow: visible;
+      }
+      .item-spark-svg path,
+      .item-spark-svg line {
+        vector-effect: non-scaling-stroke;
+      }
+      .ar-grid {
+        stroke: var(--gris-200);
+        stroke-width: 1;
+      }
+      .ar-real {
+        fill: none;
+        stroke: var(--azul-grandeza);
+        stroke-width: 2;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      .ar-ppto {
+        fill: none;
+        stroke: var(--gold);
+        stroke-width: 1.7;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-dasharray: 4 3;
+      }
+      .ar-area {
+        fill: var(--azul-grandeza);
+        fill-opacity: 0.08;
+      }
+      .ar-pt {
+        fill: var(--blanco);
+        stroke-width: 1.5;
+      }
+      .ar-pt.real {
+        stroke: var(--azul-grandeza);
+      }
+      .ar-pt.ppto {
+        stroke: var(--gold);
+        r: 1.6;
+      }
+      .ar-pt-last {
+        fill: var(--azul-grandeza);
+        stroke: var(--blanco);
+        stroke-width: 1.8;
+      }
+      .ar-lbl {
+        fill: var(--gris-400);
+        font-size: 9px;
+        font-family: "Poppins", sans-serif;
+        text-anchor: middle;
+        font-weight: 500;
+      }
+      @media (max-width: 720px) {
+        .item-spark {
+          padding: 10px 10px 6px;
+        }
+        .item-spark-head {
+          gap: 8px;
+        }
+      }
+
+      /* === Personas físicas/morales · vista agregada === */
+      .personas-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .persona-card {
+        background: var(--blanco);
+        border: 1px solid var(--gris-200);
+        border-radius: var(--radius-sm);
+        padding: 18px 20px 16px;
+        box-shadow: var(--shadow-sm);
+      }
+      .persona-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 22px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      .persona-title-block {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 220px;
+        flex: 1;
+      }
+      .persona-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--azul-grandeza);
+        letter-spacing: -0.005em;
+      }
+      .persona-sub {
+        font-size: 11px;
+        color: var(--gris-400);
+        font-weight: 500;
+        line-height: 1.45;
+      }
+      .persona-totals {
+        display: flex;
+        gap: 22px;
+        align-items: flex-start;
+        font-variant-numeric: tabular-nums;
+        flex-wrap: wrap;
+      }
+      .persona-tot {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        line-height: 1.1;
+        gap: 4px;
+      }
+      .persona-tot-val {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--azul-grandeza);
+      }
+      .persona-tot-val.muted {
+        color: var(--gris-400);
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .persona-tot-val.pct {
+        color: var(--verde);
+        font-size: 18px;
+      }
+      .persona-tot-val.pct.under {
+        color: #c47a00;
+      }
+      .persona-tot-lbl {
+        font-size: 9.5px;
+        color: var(--gris-400);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 500;
+      }
+      .persona-chart {
+        margin-top: 12px;
+        background: var(--gris-100);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px 10px;
+        border: 1px solid var(--gris-200);
+      }
+      .persona-chart-legend {
+        display: flex;
+        gap: 14px;
+        font-size: 10.5px;
+        color: var(--gris-400);
+        margin-bottom: 6px;
+        font-weight: 500;
+      }
+      .persona-chart-legend .sw {
+        display: inline-block;
+        width: 14px;
+        height: 2px;
+        margin-right: 5px;
+        vertical-align: middle;
+        border-radius: 2px;
+      }
+      .persona-chart-legend .sw-real {
+        background: var(--azul-grandeza);
+      }
+      .persona-chart-legend .sw-ppto {
+        background-image: linear-gradient(
+          90deg,
+          var(--gold) 0,
+          var(--gold) 4px,
+          transparent 4px,
+          transparent 7px,
+          var(--gold) 7px,
+          var(--gold) 11px,
+          transparent 11px,
+          transparent 14px
+        );
+        background-color: transparent;
+      }
+      @media (max-width: 720px) {
+        .persona-card {
+          padding: 14px 14px 12px;
+        }
+        .persona-totals {
+          gap: 14px;
+          width: 100%;
+        }
+        .persona-tot {
+          align-items: flex-start;
+        }
       }
 
       /* === Gap visual === */
@@ -1398,11 +1650,14 @@
         <button class="navbtn" data-view="desglose">
           <span class="navnum">2</span>Desglose
         </button>
+        <button class="navbtn" data-view="tipo de personas">
+          <span class="navnum">3</span>Personas
+        </button>
         <button class="navbtn" data-view="acciones">
-          <span class="navnum">3</span>Acciones
+          <span class="navnum">4</span>Acciones
         </button>
         <button class="navbtn" data-view="horquilla">
-          <span class="navnum">4</span>Horquilla
+          <span class="navnum">5</span>Horquilla
         </button>
       </nav>
       <div class="periodo-chip">Ene–Dic · Ppto 833.37 Mdp</div>
@@ -1413,7 +1668,7 @@
       <section class="view view-cover" data-view="cover">
         <div class="cover-hero">
           <span class="cover-eyebrow"
-            >Presupuesto Enero – Diciembre · 833.37 Mdp · Corte abril</span
+            >Presupuesto Enero – Diciembre · 833.37 Mdp · Corte mayo</span
           >
           <h1 class="cover-title">Forecast Comercial<br />Seguros</h1>
           <p class="cover-desc">
@@ -1425,7 +1680,7 @@
             <span class="cc-num">1</span>
             <span class="cc-title">Indicadores</span>
             <span class="cc-desc"
-              >Presupuesto, avance a abril y los escenarios realista y optimista
+              >Presupuesto, avance a mayo y los escenarios realista y optimista
               de un vistazo.</span
             >
             <span class="cc-go">Ver vista →</span>
@@ -1439,17 +1694,26 @@
             >
             <span class="cc-go">Ver vista →</span>
           </button>
-          <button class="cover-card" data-view="acciones">
+          <button class="cover-card" data-view="personas">
             <span class="cc-num">3</span>
+            <span class="cc-title">Personas</span>
+            <span class="cc-desc"
+              >Personas físicas, personas morales y directo seguros · gráfico
+              Real vs Ppto Ene–Dic.</span
+            >
+            <span class="cc-go">Ver vista →</span>
+          </button>
+          <button class="cover-card" data-view="acciones">
+            <span class="cc-num">4</span>
             <span class="cc-title">Acciones</span>
             <span class="cc-desc"
-              >Iniciativas de apoyo para cerrar la brecha de −72.3 Mdp vs
+              >Iniciativas de apoyo para cerrar la brecha de −41.7 Mdp vs
               presupuesto.</span
             >
             <span class="cc-go">Ver vista →</span>
           </button>
           <button class="cover-card" data-view="horquilla">
-            <span class="cc-num">4</span>
+            <span class="cc-num">5</span>
             <span class="cc-title">Horquilla</span>
             <span class="cc-desc"
               >Rango entre el escenario aplicado y el optimista, y su diferencia
@@ -1465,7 +1729,7 @@
         <div class="view-head">
           <h2 class="view-title">Indicadores</h2>
           <p class="view-sub">
-            Presupuesto, avance a abril y escenarios · cifras en Mdp
+            Presupuesto, avance a mayo y escenarios · cifras en Mdp
           </p>
         </div>
         <section class="kpis" id="kpis"></section>
@@ -1489,12 +1753,26 @@
         </div>
       </section>
 
-      <!-- ===== 3. Acciones ===== -->
+      <!-- ===== 3. Personas ===== -->
+      <section class="view" data-view="personas">
+        <div class="view-head">
+          <h2 class="view-title">Personas físicas y morales</h2>
+          <p class="view-sub">
+            Agregación por tipo de cliente · Real Ene–May vs Ppto Ene–Dic ·
+            cifras en Mdp (Renovación no incluida)
+          </p>
+        </div>
+        <div class="panel">
+          <div class="personas-list" id="personas"></div>
+        </div>
+      </section>
+
+      <!-- ===== 4. Acciones ===== -->
       <section class="view" data-view="acciones">
         <div class="view-head">
           <h2 class="view-title">Acciones de apoyo</h2>
           <p class="view-sub">
-            Para cerrar la brecha de −72.3 Mdp vs presupuesto
+            Para cerrar la brecha de −41.7 Mdp vs presupuesto
           </p>
         </div>
         <div class="panel">
@@ -1502,7 +1780,7 @@
           <div class="gap-summary">
             <div>
               <div class="lbl">Brecha actual</div>
-              <div class="val">−72.3 Mdp</div>
+              <div class="val">−41.7 Mdp</div>
             </div>
             <div class="gap-divider"></div>
             <div>
@@ -1511,20 +1789,20 @@
             </div>
             <div class="gap-divider"></div>
             <div>
-              <div class="lbl">Brecha nueva</div>
-              <div class="val">−12.3 Mdp</div>
+              <div class="lbl">Margen neto</div>
+              <div class="val">+18.3 Mdp</div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ===== 4. Horquilla ===== -->
+      <!-- ===== 5. Horquilla ===== -->
       <section class="view" data-view="horquilla">
         <div class="view-head">
           <h2 class="view-title">Horquilla del forecast</h2>
           <p class="view-sub">
             Distancia entre el forecast aplicado y el optimista (100%) · Corte a
-            abril
+            mayo
           </p>
         </div>
         <div class="horquilla">
@@ -1575,8 +1853,8 @@
     <script>
       // ====== DATA ======
       const PRESUPUESTO = 833.37;
-      const ESC_ACTUAL = 761.1; // suma de totales realistas
-      const ESC_TECHO = 841.62; // avance + suma de optimistas
+      const ESC_ACTUAL = 791.7; // suma de totales realistas
+      const ESC_TECHO = 872.02; // avance + suma de optimistas
       const HORQUILLA = ESC_TECHO - ESC_ACTUAL;
 
       const items = [
@@ -1586,9 +1864,9 @@
           ppto: 10.18,
           opt: 7,
           factor: 1.0,
-          Avance: 5.9,
+          Avance: 7.9,
           estimado: 7.0,
-          total: 12.9,
+          total: 14.9,
           desglose: ["BAU 2Mdp", "Oportunidades: 50Mdp × 10% éxito = 5Mdp"],
         },
         {
@@ -1597,9 +1875,9 @@
           ppto: 12.12,
           opt: 32,
           factor: 0.8,
-          Avance: 17.3,
+          Avance: 18.4,
           estimado: 25.6,
-          total: 42.9,
+          total: 44.0,
           desglose: [
             "Regla: 3 dotales × 0.5Mdp prima prom × 18 asesores = 27Mdp en 8 meses",
             "5Mdp en pipeline desglosados en 4.4Mdp dotales de familia Castrejón + 0.6Mdp empresa GND",
@@ -1611,9 +1889,9 @@
           ppto: 25.37,
           opt: 22.85,
           factor: 0.5,
-          Avance: 1.8,
+          Avance: 3.5,
           estimado: 11.4,
-          total: 13.2,
+          total: 14.9,
           desglose: [
             "2.8Mdp en pipeline",
             "10Mdp de RC Mateo",
@@ -1626,9 +1904,9 @@
           ppto: 313.4,
           opt: 158.23,
           factor: 1.0,
-          Avance: 146.5,
+          Avance: 157.3,
           estimado: 158.23,
-          total: 304.7,
+          total: 315.5,
           desglose: ["Se restó el 25% en el optimista"],
         },
         {
@@ -1637,9 +1915,9 @@
           ppto: 22.5,
           opt: 9,
           factor: 1.0,
-          Avance: 0,
+          Avance: 0.1,
           estimado: 9.0,
-          total: 9.0,
+          total: 9.1,
           desglose: ["Optimista 9Mdp", "Éxito esperado 100%"],
         },
         {
@@ -1662,9 +1940,9 @@
           ppto: 144.0,
           opt: 119.5,
           factor: 0.8,
-          Avance: 24.4,
+          Avance: 29.0,
           estimado: 95.6,
-          total: 120.0,
+          total: 124.6,
           desglose: ["Compromiso de la banca 144Mdp", "Éxito esperado 80%"],
         },
         {
@@ -1673,23 +1951,26 @@
           ppto: 225.0,
           opt: 176.64,
           factor: 0.8,
-          Avance: 44.2,
+          Avance: 54.2,
           estimado: 141.3,
-          total: 185.5,
+          total: 195.5,
           desglose: [
             "Ver cuadro de prima promedio por producto como referencia",
           ],
         },
         {
           n: 9,
-          name: "Directo Seguros",
+          name: "Directo Seguros + Negocios Especiales",
           ppto: 36.7,
           opt: 40.0,
           factor: 1.0,
-          Avance: 4.1,
+          Avance: 4.4,
           estimado: 40.0,
-          total: 44.1,
-          desglose: ["Póliza de CABSA con valor de 40Mdp"],
+          total: 44.4,
+          desglose: [
+            "Póliza de CABSA con valor de 40Mdp",
+            "Avance combina Directo Seguros 4.34Mdp + Negocios Especiales 0.09Mdp a mayo",
+          ],
         },
       ];
 
@@ -1733,14 +2014,7 @@
       ];
 
       // ====== Avance ======
-      // El avance correcto es 244.4 Mdp; el remanente decimal se reparte entre
-      // las líneas que tienen Avance, sin alterar los valores base mostrados.
-      const AVANCE_OBJETIVO = 244.4;
-      const lineasConAvance = items.filter((i) => i.Avance > 0);
-      const rawAvance = items.reduce((s, i) => s + i.Avance, 0);
-      const ajustePorLinea =
-        (AVANCE_OBJETIVO - rawAvance) / lineasConAvance.length;
-      lineasConAvance.forEach((i) => (i.Avance += ajustePorLinea));
+      // Avance real acumulado Enero–Mayo según insumo 2026_A_MAYO.xlsx
 
       // ====== KPI render ======
       const AVANCE = items.reduce((s, i) => s + i.Avance, 0); // suma de lo Avance
@@ -1758,7 +2032,7 @@
           cls: "kpi-actions",
           label: "Avance ",
           value: AVANCE,
-          foot: "Real Enero a Abril",
+          foot: "Real Enero a Mayo",
           delta: { text: `≈ ${avancePct}% del presupuesto`, cls: "warm" },
         },
         {
@@ -1766,14 +2040,14 @@
           label: "Escenario realista",
           value: ESC_ACTUAL,
           foot: "Avance + realista (con factores)",
-          delta: { text: "−72.3 Mdp vs presupuesto", cls: "neg" },
+          delta: { text: "−41.7 Mdp vs presupuesto", cls: "neg" },
         },
         {
           cls: "kpi-ceiling",
           label: "Escenario optimista",
           value: ESC_TECHO,
           foot: "Avance + optimista (100%)",
-          delta: { text: "+8.3 Mdp sobre presupuesto", cls: "pos" },
+          delta: { text: "+38.6 Mdp sobre presupuesto", cls: "pos" },
         },
       ];
 
@@ -1795,6 +2069,249 @@
       `,
         )
         .join("");
+
+      // ====== Línea de tiempo Real vs Ppto Ene–Dic por línea de negocio ======
+      // Fuente: 2026_A_MAYO.xlsx · Real solo hasta mayo · Ppto todo el año (acumulado)
+      const MESES_FULL = [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ];
+      const MES_HOY_IDX = 4;
+      const rvpSeries = {
+        Arrendadora: {
+          real: [
+            11.35,
+            11.35,
+            5.12,
+            5.93,
+            7.9,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            0.43, 0.86, 1.29, 1.72, 2.78, 3.84, 4.9, 5.96, 7.02, 8.08, 9.14,
+            10.18,
+          ],
+        },
+        "Wealth Management": {
+          real: [
+            -0.09,
+            10.01,
+            10.84,
+            17.3,
+            18.42,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            0.66, 1.32, 1.99, 2.65, 3.6, 4.56, 5.52, 6.47, 7.43, 8.39, 9.34,
+            12.12,
+          ],
+        },
+        "Banca Corporativa": {
+          real: [
+            0.55,
+            0.68,
+            1.69,
+            1.85,
+            3.51,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            1.7, 3.4, 5.1, 6.79, 9.12, 11.44, 13.77, 16.09, 18.41, 20.74, 23.06,
+            25.38,
+          ],
+        },
+        Renovación: {
+          real: [
+            7.12,
+            34.55,
+            127.6,
+            146.45,
+            157.35,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            6.87, 40.83, 135.28, 147.59, 159.74, 180.41, 204.39, 218.03, 230.61,
+            255.61, 289.07, 315.63,
+          ],
+        },
+        Empresarial: {
+          real: [0, 0, 0, 0, 0.09, null, null, null, null, null, null, null],
+          ppto: [
+            0, 0, 0, 0, 2.81, 5.62, 8.44, 11.25, 14.06, 16.88, 19.69, 22.5,
+          ],
+        },
+        Growth: {
+          real: [0, 0, 0, 0, 0, null, null, null, null, null, null, null],
+          ppto: [0, 0, 0, 0, 0, 0, 0, 3.02, 10.44, 21.66, 32.88, 44.1],
+        },
+        "Actinver Patrimonial": {
+          real: [
+            4.94,
+            10.17,
+            16.7,
+            24.45,
+            28.99,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            2.55, 6.02, 11.23, 30.3, 38.5, 47.61, 58.55, 72.01, 87.96, 107.55,
+            127.6, 144.0,
+          ],
+        },
+        "Banca Privada": {
+          real: [
+            7.12,
+            17.5,
+            37.87,
+            44.16,
+            54.22,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            9.16, 24.0, 38.84, 53.68, 74.06, 94.44, 116.2, 137.96, 159.72,
+            181.48, 203.24, 225.0,
+          ],
+        },
+        "Directo Seguros + Negocios Especiales": {
+          real: [
+            0.68,
+            0.68,
+            1.78,
+            4.34,
+            4.42,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            0, 1.16, 2.4, 5.86, 9.32, 12.78, 16.63, 20.48, 24.33, 28.47, 32.61,
+            36.75,
+          ],
+        },
+      };
+
+      function rvpSpark(real, ppto) {
+        const W = 720,
+          H = 120;
+        const x0 = 50,
+          x1 = 700,
+          y0 = 14,
+          y1 = 84;
+        const validReal = real.filter((v) => v !== null);
+        const all = [...validReal, ...ppto];
+        const minRaw = Math.min(0, ...all);
+        const maxRaw = Math.max(...all, 1);
+        const range = maxRaw - minRaw || 1;
+        const n = 12;
+        const xs = Array.from(
+          { length: n },
+          (_, i) => x0 + (i * (x1 - x0)) / (n - 1),
+        );
+        const yMap = (v) => y1 - ((v - minRaw) / range) * (y1 - y0);
+        const yBase = yMap(Math.max(minRaw, 0));
+
+        const realPts = real
+          .map((v, i) => (v === null ? null : { x: xs[i], y: yMap(v), v, i }))
+          .filter((p) => p);
+        const ppPts = ppto.map((v, i) => ({ x: xs[i], y: yMap(v), v, i }));
+
+        const pthReal =
+          realPts.length > 1
+            ? "M " +
+              realPts
+                .map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`)
+                .join(" L ")
+            : "";
+        const pthPpto =
+          "M " +
+          ppPts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" L ");
+        const areaReal =
+          realPts.length > 1
+            ? `M ${realPts[0].x.toFixed(1)},${yBase.toFixed(1)} L ` +
+              realPts
+                .map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`)
+                .join(" L ") +
+              ` L ${realPts[realPts.length - 1].x.toFixed(1)},${yBase.toFixed(1)} Z`
+            : "";
+
+        const dotsR = realPts
+          .map((p) => {
+            const isLast = p.i === MES_HOY_IDX;
+            return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${isLast ? 3.5 : 2.2}" class="${isLast ? "ar-pt-last" : "ar-pt real"}"/>`;
+          })
+          .join("");
+        const dotsP = ppPts
+          .map(
+            (p) =>
+              `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="1.8" class="ar-pt ppto"/>`,
+          )
+          .join("");
+
+        const labels = MESES_FULL.map(
+          (m, i) =>
+            `<text x="${xs[i].toFixed(1)}" y="${y1 + 18}" class="ar-lbl">${m}</text>`,
+        ).join("");
+
+        return `<svg class="item-spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+          <line x1="${x0}" y1="${y1}" x2="${x1}" y2="${y1}" class="ar-grid"/>
+          ${areaReal ? `<path class="ar-area" d="${areaReal}"/>` : ""}
+          <path class="ar-ppto" d="${pthPpto}"/>
+          ${pthReal ? `<path class="ar-real" d="${pthReal}"/>` : ""}
+          ${dotsP}
+          ${dotsR}
+          ${labels}
+        </svg>`;
+      }
 
       // ====== Items render ======
       // Cada barra se normaliza a SU PROPIO escenario optimista (Avance + optimista),
@@ -1851,6 +2368,20 @@
               ${it.ppto > 0 ? `<span class="mk m-ppto">Ppto <b>${fmt(it.ppto)}</b></span>` : ""}
             </div>
             <div class="item-detail">
+              ${
+                rvpSeries[it.name]
+                  ? `<div class="item-spark">
+                      <div class="item-spark-head">
+                        <span class="item-spark-title">Real vs Ppto · Acumulado Ene–Dic</span>
+                        <span class="item-spark-legend">
+                          <span><span class="sw sw-real"></span>Real (Ene–May)</span>
+                          <span><span class="sw sw-ppto"></span>Ppto (Ene–Dic)</span>
+                        </span>
+                      </div>
+                      ${rvpSpark(rvpSeries[it.name].real, rvpSeries[it.name].ppto)}
+                    </div>`
+                  : ""
+              }
               <div class="det-block">
                 <span class="lbl">Desglose</span>
                 <ul class="desglose-list">
@@ -1869,6 +2400,122 @@
         .join("");
 
       document.getElementById("items").innerHTML = itemsHtml;
+
+      // ====== Personas físicas/morales · agregación ======
+      // Sumatorias precomputadas de las líneas del rvpSeries
+      const personasGrupos = [
+        {
+          name: "Personas Físicas",
+          sub: "Banca Privada · Actinver Patrimonial · Wealth Management · Growth",
+          real: [
+            11.97,
+            37.68,
+            65.41,
+            85.91,
+            101.63,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            12.37, 31.34, 52.06, 86.63, 116.16, 146.61, 180.27, 219.46, 265.55,
+            319.08, 373.06, 425.22,
+          ],
+        },
+        {
+          name: "Personas Morales",
+          sub: "Banca Corporativa · Arrendadora · Empresarial",
+          real: [
+            11.9,
+            12.03,
+            6.81,
+            7.78,
+            11.5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            2.13, 4.26, 6.39, 8.51, 14.71, 20.9, 27.11, 33.3, 39.49, 45.7,
+            51.89, 58.06,
+          ],
+        },
+        {
+          name: "Directo Seguros + Negocios Especiales",
+          sub: "Pólizas Directo · Mascotas · Auto · Negocios especiales",
+          real: [
+            0.68,
+            0.68,
+            1.78,
+            4.34,
+            4.42,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ],
+          ppto: [
+            0, 1.16, 2.4, 5.86, 9.32, 12.78, 16.63, 20.48, 24.33, 28.47, 32.61,
+            36.75,
+          ],
+        },
+      ];
+
+      const personasHtml = personasGrupos
+        .map((g) => {
+          const realMay = g.real[MES_HOY_IDX];
+          const pptoMay = g.ppto[MES_HOY_IDX];
+          const pptoDic = g.ppto[g.ppto.length - 1];
+          const pct = pptoMay > 0 ? (realMay / pptoMay) * 100 : 0;
+          const pctCls = pct >= 100 ? "" : "under";
+          return `
+        <div class="persona-card">
+          <div class="persona-head">
+            <div class="persona-title-block">
+              <div class="persona-title">${g.name}</div>
+              <div class="persona-sub">${g.sub}</div>
+            </div>
+            <div class="persona-totals">
+              <div class="persona-tot">
+                <span class="persona-tot-val">${fmt(realMay)}</span>
+                <span class="persona-tot-lbl">Real Ene–May</span>
+              </div>
+              <div class="persona-tot">
+                <span class="persona-tot-val muted">${fmt(pptoMay)}</span>
+                <span class="persona-tot-lbl">Ppto Ene–May</span>
+              </div>
+              <div class="persona-tot">
+                <span class="persona-tot-val pct ${pctCls}">${pct.toFixed(0)}%</span>
+                <span class="persona-tot-lbl">Cumplimiento</span>
+              </div>
+              <div class="persona-tot">
+                <span class="persona-tot-val muted">${fmt(pptoDic)}</span>
+                <span class="persona-tot-lbl">Ppto Anual</span>
+              </div>
+            </div>
+          </div>
+          <div class="persona-chart">
+            <div class="persona-chart-legend">
+              <span><span class="sw sw-real"></span>Real acumulado (Ene–May)</span>
+              <span><span class="sw sw-ppto"></span>Ppto acumulado (Ene–Dic)</span>
+            </div>
+            ${rvpSpark(g.real, g.ppto)}
+          </div>
+        </div>`;
+        })
+        .join("");
+      document.getElementById("personas").innerHTML = personasHtml;
 
       // Animación de barras (reutilizable al entrar a la vista Desglose)
       function animateBars() {
