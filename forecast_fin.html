@@ -522,7 +522,7 @@
         line-height: 1.55;
       }
       .item.active .item-detail {
-        max-height: 560px;
+        max-height: 580px;
         margin-top: 12px;
       }
       .item-detail-grid {
@@ -695,7 +695,7 @@
       .item-spark-svg {
         width: 100%;
         height: auto;
-        max-height: 130px;
+        max-height: 160px;
         display: block;
         overflow: visible;
       }
@@ -706,6 +706,12 @@
       .ar-grid {
         stroke: var(--gris-200);
         stroke-width: 1;
+      }
+      .ar-vgrid {
+        stroke: var(--gris-200);
+        stroke-width: 0.5;
+        stroke-dasharray: 1 4;
+        opacity: 0.55;
       }
       .ar-real {
         fill: none;
@@ -747,7 +753,21 @@
         font-size: 9px;
         font-family: "Poppins", sans-serif;
         text-anchor: middle;
-        font-weight: 500;
+        font-weight: 600;
+      }
+      .ar-val-tag {
+        font-size: 8.5px;
+        font-family: "Poppins", sans-serif;
+        text-anchor: middle;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        pointer-events: none;
+      }
+      .ar-val-tag.real {
+        fill: var(--azul-grandeza);
+      }
+      .ar-val-tag.ppto {
+        fill: #7a5d00;
       }
       @media (max-width: 720px) {
         .item-spark {
@@ -755,6 +775,15 @@
         }
         .item-spark-head {
           gap: 8px;
+        }
+        .item-spark-svg {
+          max-height: 200px;
+        }
+        .ar-val-tag {
+          font-size: 7.5px;
+        }
+        .ar-lbl {
+          font-size: 8px;
         }
       }
 
@@ -1650,7 +1679,7 @@
         <button class="navbtn" data-view="desglose">
           <span class="navnum">2</span>Desglose
         </button>
-        <button class="navbtn" data-view="tipo de personas">
+        <button class="navbtn" data-view="personas">
           <span class="navnum">3</span>Tipo de Personas
         </button>
         <button class="navbtn" data-view="acciones">
@@ -2239,11 +2268,13 @@
 
       function rvpSpark(real, ppto) {
         const W = 720,
-          H = 120;
+          H = 140;
         const x0 = 50,
           x1 = 700,
-          y0 = 14,
-          y1 = 84;
+          y0 = 22,
+          y1 = 104;
+        const Y_PPTO_LBL = 12;
+        const Y_MES_LBL = 124;
         const validReal = real.filter((v) => v !== null);
         const all = [...validReal, ...ppto];
         const minRaw = Math.min(0, ...all);
@@ -2296,16 +2327,45 @@
 
         const labels = MESES_FULL.map(
           (m, i) =>
-            `<text x="${xs[i].toFixed(1)}" y="${y1 + 18}" class="ar-lbl">${m}</text>`,
+            `<text x="${xs[i].toFixed(1)}" y="${Y_MES_LBL}" class="ar-lbl">${m}</text>`,
         ).join("");
 
+        // Rótulos:
+        //  - Ppto en fila superior fija (Y_PPTO_LBL) — alineados sobre la línea
+        //  - Real cerca de la curva: DEBAJO por defecto, ARRIBA si cerca del baseline
+        //  - Sin contorno blanco — el color (azul/oro) basta para legibilidad
+        const valsR = realPts
+          .map((p) => {
+            if (Math.abs(p.v) < 0.1) return "";
+            const cercaDelBase = p.y > y1 - 10;
+            const ty = cercaDelBase ? p.y - 7 : Math.min(y1 + 10, p.y + 9);
+            return `<text x="${p.x.toFixed(1)}" y="${ty.toFixed(1)}" class="ar-val-tag real">${fmt(p.v)}</text>`;
+          })
+          .join("");
+        const valsP = ppPts
+          .map((p) => {
+            if (p.v < 0.1) return "";
+            return `<text x="${p.x.toFixed(1)}" y="${Y_PPTO_LBL}" class="ar-val-tag ppto">${fmt(p.v)}</text>`;
+          })
+          .join("");
+
+        const vGuides = xs
+          .map(
+            (x) =>
+              `<line x1="${x.toFixed(1)}" y1="${y0}" x2="${x.toFixed(1)}" y2="${y1}" class="ar-vgrid"/>`,
+          )
+          .join("");
+
         return `<svg class="item-spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+          ${vGuides}
           <line x1="${x0}" y1="${y1}" x2="${x1}" y2="${y1}" class="ar-grid"/>
           ${areaReal ? `<path class="ar-area" d="${areaReal}"/>` : ""}
           <path class="ar-ppto" d="${pthPpto}"/>
           ${pthReal ? `<path class="ar-real" d="${pthReal}"/>` : ""}
           ${dotsP}
           ${dotsR}
+          ${valsP}
+          ${valsR}
           ${labels}
         </svg>`;
       }
